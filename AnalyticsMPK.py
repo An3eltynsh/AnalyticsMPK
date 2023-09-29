@@ -1,6 +1,6 @@
 
 from openpyxl import load_workbook
-from .config import CON
+from config import CON
 #------------------------------------------------------------------------------------------
 
 fn = 'Analytics_sending_app.xlsx'
