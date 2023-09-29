@@ -5,7 +5,7 @@ from config import CON
 
 fn = 'Analytics_sending_app.xlsx'
 wb = load_workbook(fn)
-ws = wb.active
+ws = wb['current sheet']
 
 cod_MPK=[]
 item = 2
@@ -15,10 +15,13 @@ index_last_MPK = item
 for i in range(2, index_last_MPK):
     cod_MPK.append(ws[f'D{i}'].value)
 
+l = []
 cod_MPK_sort = []
 for i in cod_MPK:
     if i[:4:] in CON:
-        cod_MPK_sort.append(i)
+        l = i.split('/')
+        l = l[0]+'/00'
+        cod_MPK_sort.append(l)
     else:
         cod_MPK_sort.append(i[:4:])
 
@@ -41,8 +44,6 @@ for key, value in cod_MPK_count.items():
 ws = wb['analytics data']
 
 for key, value in cod_MPK_count_sort.items():
-    if key[:4:] in CON:
-        continue
     for i in range(5, 776):
         if ws[f'D{i}'].value is not None:
             a = ws[f'D{i}'].value
@@ -55,9 +56,6 @@ wb.save(fn)
 wb.close()
 
 sum_ = 0
-for key, value in cod_MPK_count_sort.items():
-    if len(key) > 4:
-        print(f'  {key} : {value}')
-        print('\n')
+for value in cod_MPK_count_sort.values():
     sum_ += value
 print(f'    колличество заявок - {sum_}')
